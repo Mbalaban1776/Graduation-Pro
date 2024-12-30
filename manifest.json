@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Web Filter Extension",
+  "name": "WebFilter",
   "version": "1.0",
-  "description": "This extension filters the page.",
+  "description": "This extension filters the page on the basis of the user's input",
   "permissions": ["storage", "activeTab"],
   "background": {
     "service_worker": "background.js"
