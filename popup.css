@@ -1,6 +1,6 @@
 body {
     width: 300px; /* Adjust width as needed for your design */
-    height: 300px;
+    height: auto; /* Adjust height to auto to accommodate new elements */
     padding: 10px;
     font-family: Arial, sans-serif;
 }
@@ -8,25 +8,70 @@ body {
     display: flex; /* Use flexbox for easy horizontal alignment */
     margin-top: 10px;
 }
-input[type="text"] {
-    flex-grow: 1; /* Allows the input to grow and fill available space */
+input[type="text"], input[type="file"] {
+    flex-grow: 1; /* Allows the inputs to grow and fill available space */
     padding: 8px 10px; /* Adequate padding for touch and aesthetics */
     font-size: 16px; /* Enhanced readability */
-    border: 1px solid #ccc; /* Subtle border for the input */
-    border-radius: 5px; /* Rounded corners on the left side */
+    border: 1px solid #ccc; /* Subtle border for the inputs */
+    border-radius: 5px; /* Rounded corners */
     margin-right: -1px; /* Removes the gap between input and button */
 }
-button {
-    margin-left: 10px;;
+#fileInputContainer {
+   
+    margin-top: 10px;
+    font-size:15px;
+}
+#fileInputLabel {
+    font-size: 14px;
+    border:1px solid #ccc;
+    border-radius: 2px;
+    padding: 4px;
+
+}
+
+#deleteFileBtn{
+    color: red;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 3px;
+    border: none;
+    padding: 3px;
+    
+}
+
+#fileContainer {
+    display: inline-block;
+    background-color: #DCEBE8;
+    font-size: 16px;
+}
+
+#uploadBtn{
+
+    font-size: 14px;
+    border:1px solid #ccc;
+    border-radius: 2px;
+    padding: 4px;
+    
+}
+
+#enableContainer {
+    margin-top: 7px;
+    display: flex;
+    align-items: center; /* Aligns items vertically */
+    gap: 8px; /* Adds some space between the label and checkbox */
+}
+
+#add {
+    margin-left: 10px;
     padding: 8px 10px;
     font-size: 16px;
     background-color: #4CAF50;
     color: white;
     border: none;
     cursor: pointer;
-    border-radius: 5px; /* Rounded corners on the right side */
+    border-radius: 5px; /* Rounded corners */
 }
-button:hover {
+#add:hover {
     background-color: #45a049;
 }
 
@@ -58,7 +103,6 @@ button:hover {
     color: darkred;
 }
 
-
 #deleteAll {
     padding: 8px 10px;
     font-size: 12px;
@@ -73,7 +117,10 @@ button:hover {
     background-color: #d32f2f;
 }
 
+#fileUploadContainer {
+    margin-top: 5px; /* Space between file upload and other elements */
+}
 
-.keywordsContainer {
-    margin-left: -50px;
+input[type="file"] {
+    margin-bottom: 3px; /* Space between the file input and the upload button */
 }

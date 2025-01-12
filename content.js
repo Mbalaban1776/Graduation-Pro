@@ -1,24 +1,21 @@
+chrome.storage.sync.get(['userKeywords', 'uploadedKeywords', 'filteringEnabled'], function(result) {
+    if (result.filteringEnabled) {
+        let keywords = new Set([...(result.userKeywords || []), ...(result.uploadedKeywords || [])]);
+        keywords = Array.from(keywords).map(keyword => keyword.toLowerCase());
 
-
-chrome.storage.sync.get(['keywords', 'filteringEnabled'], function(result) {
-    if (result.filteringEnabled && result.keywords && result.keywords.length > 0) {
         const currentUrl = window.location.href;
 
         if (currentUrl.startsWith('https://www.youtube.com')) {
-            hideYouTubeContent(result.keywords);
+            hideYouTubeContent(keywords);
         } else if (currentUrl.startsWith('https://eksisozluk.com')) {
-            hideContentEksiSozluk(result.keywords);
+            hideContentEksiSozluk(keywords);
         } else if (currentUrl.includes('https://www.google.')) {
-            hideGoogleSearchContent(result.keywords);
+            hideGoogleSearchContent(keywords);
         }
     }
 });
 
-
-
 function hideYouTubeContent(keywords) {
-    keywords = keywords.map(keyword => keyword.toLowerCase());
-
     const videoItems = document.querySelectorAll('ytd-rich-item-renderer, ytd-video-renderer, ytd-compact-video-renderer');
     videoItems.forEach(item => {
         const titleElement = item.querySelector('h3');
@@ -240,20 +237,22 @@ function hideGoogleSearchContent(keywords) {
 
 }
 
-
 const observer = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
         mutation.addedNodes.forEach(newNode => {
             if (newNode.nodeType === 1) {
-                chrome.storage.sync.get(['keywords', 'filteringEnabled'], function(result) {
-                    if (result.filteringEnabled && result.keywords && result.keywords.length > 0) {
+                chrome.storage.sync.get(['userKeywords', 'uploadedKeywords', 'filteringEnabled'], function(result) {
+                    if (result.filteringEnabled) {
+                        let keywords = new Set([...(result.userKeywords || []), ...(result.uploadedKeywords || [])]);
+                        keywords = Array.from(keywords).map(keyword => keyword.toLowerCase());
+
                         const currentUrl = window.location.href;
                         if (currentUrl.startsWith('https://www.youtube.com')) {
-                            hideYouTubeContent(result.keywords);
+                            hideYouTubeContent(keywords);
                         } else if (currentUrl.startsWith('https://eksisozluk.com')) {
-                            hideContentEksiSozluk(result.keywords);
+                            hideContentEksiSozluk(keywords);
                         } else if (currentUrl.includes('https://www.google.')) {
-                            hideGoogleSearchContent(result.keywords);
+                            hideGoogleSearchContent(keywords);
                         }
                     }
                 });

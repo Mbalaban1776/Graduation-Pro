@@ -15,8 +15,20 @@
         <ul id="keywordsList"></ul>
         <button id="deleteAll">Delete All</button>
     </div>
-    <!-- Toggle Switch for Enabling/Disabling the Filter -->
-    <div>
+   
+    
+    <div id="fileInputContainer">
+        <input type="file" id="fileInput" style="display: none;">
+        <label for="fileInput" id="fileInputLabel">Choose File</label>
+        <button id="uploadBtn">Upload</button>
+        <div id="fileContainer">
+            <span id="filenameDisplay">No file chosen</span>
+            <button id="deleteFileBtn" style="display: none;">×</button> <!-- Delete file button -->
+        </div>
+    </div>
+
+     <!-- Toggle Switch for Enabling/Disabling the Filter -->
+    <div id="enableContainer">
         <label>Enable Filter:</label>
         <input type="checkbox" id="toggleFilter" checked>
     </div>
