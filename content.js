@@ -234,13 +234,48 @@ function hideGoogleSearchContent(keywords) {
         }
         
     });
-
 }
+
+function hideGeneralContent(keywords) {
+    const elements = document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, li, a, img');
+
+    elements.forEach(element => {
+        const textContent = element.textContent.toLowerCase();
+        const altText = element.alt ? element.alt.toLowerCase() : '';
+        const titleText = element.title ? element.title.toLowerCase() : '';
+
+        const containsKeyword = keywords.some(keyword => 
+            textContent.includes(keyword) || 
+            altText.includes(keyword) || 
+            titleText.includes(keyword)
+        );
+
+        if (containsKeyword) {
+            const parentElement = findRelevantParent(element);
+            if (parentElement) {
+                parentElement.style.display = 'none';
+            }
+        }
+    });
+}
+
+function findRelevantParent(element) {
+    // Traverse up to find the nearest 'div' that is a direct parent of the detected element
+    let currentElement = element;
+    while (currentElement && currentElement.parentElement) {
+        if (currentElement.parentElement.tagName === 'DIV') {
+            return currentElement.parentElement;
+        }
+        currentElement = currentElement.parentElement;
+    }
+    return null; // No suitable parent found, though this should not occur in well-formed HTML
+}
+
 
 const observer = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
         mutation.addedNodes.forEach(newNode => {
-            if (newNode.nodeType === 1) {
+            if (newNode.nodeType === 1) { // Check if the node is an element node
                 chrome.storage.sync.get(['userKeywords', 'uploadedKeywords', 'filteringEnabled'], function(result) {
                     if (result.filteringEnabled) {
                         let keywords = new Set([...(result.userKeywords || []), ...(result.uploadedKeywords || [])]);
@@ -253,6 +288,8 @@ const observer = new MutationObserver(mutations => {
                             hideContentEksiSozluk(keywords);
                         } else if (currentUrl.includes('https://www.google.')) {
                             hideGoogleSearchContent(keywords);
+                        } else {
+                            hideGeneralContent(keywords); // Apply general content filter for other websites
                         }
                     }
                 });
@@ -262,3 +299,4 @@ const observer = new MutationObserver(mutations => {
 });
 
 observer.observe(document.body, { childList: true, subtree: true, characterData: false });
+
