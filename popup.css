@@ -1,20 +1,20 @@
 body {
-    width: 300px; /* Adjust width as needed for your design */
-    height: auto; /* Adjust height to auto to accommodate new elements */
+    width: 300px; 
+    height: auto; 
     padding: 10px;
     font-family: Arial, sans-serif;
 }
 #inputContainer {
-    display: flex; /* Use flexbox for easy horizontal alignment */
+    display: flex; 
     margin-top: 10px;
 }
 input[type="text"], input[type="file"] {
-    flex-grow: 1; /* Allows the inputs to grow and fill available space */
-    padding: 8px 10px; /* Adequate padding for touch and aesthetics */
-    font-size: 16px; /* Enhanced readability */
-    border: 1px solid #ccc; /* Subtle border for the inputs */
-    border-radius: 5px; /* Rounded corners */
-    margin-right: -1px; /* Removes the gap between input and button */
+    flex-grow: 1; 
+    padding: 8px 10px; 
+    font-size: 16px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    margin-right: -1px; 
 }
 #fileInputContainer {
    

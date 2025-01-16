@@ -271,6 +271,55 @@ function findRelevantParent(element) {
     return null; // No suitable parent found, though this should not occur in well-formed HTML
 }
 
+function hideAmazonContent(keywords) {
+    keywords = keywords.map(keyword => keyword.toLowerCase()); // Normalize keywords for case-insensitive comparison
+
+    // Select main product listings and suggestion items
+    const productItems = document.querySelectorAll('.s-result-item, li.a-carousel-card');
+
+    productItems.forEach(item => {
+        // Check main product titles
+        const productTitleElement = item.querySelector('.a-size-base-plus, .p13n-sc-truncate-desktop-type2');
+        if (productTitleElement && keywords.some(keyword => productTitleElement.textContent.toLowerCase().includes(keyword))) {
+            item.style.display = 'none'; // Hide the entire product or suggestion item
+        }
+    });
+}
+
+function hideTrendyolContent(keywords) {
+    keywords = keywords.map(keyword => keyword.toLowerCase()); // Normalize keywords for case-insensitive comparison
+
+    // Select product listings based on the common wrapper class
+    const productItems = document.querySelectorAll('.p-card-wrapper');
+
+    productItems.forEach(item => {
+        // Look for the title elements within each product item
+        const titleElements = item.querySelectorAll('.product-title span, .product-title div');
+        let shouldHide = titleElements.length > 0 && Array.from(titleElements).some(titleElement => {
+            return keywords.some(keyword => titleElement.textContent.toLowerCase().includes(keyword));
+        });
+
+        // Hide the entire product item if any title part contains a keyword
+        if (shouldHide) {
+            item.style.display = 'none';
+        }
+    });
+}
+
+function hideHepsiburadaContent(keywords) {
+    keywords = keywords.map(keyword => keyword.toLowerCase()); // Normalize keywords for case-insensitive comparison
+
+    // Select product listings based on their class
+    const productItems = document.querySelectorAll('li.product-list-item');
+
+    productItems.forEach(item => {
+        // Look for the title element within each product item
+        const titleElement = item.querySelector('h3.product-title');
+        if (titleElement && keywords.some(keyword => titleElement.textContent.toLowerCase().includes(keyword))) {
+            item.style.display = 'none'; // Hide the entire product item if any keyword matches
+        }
+    });
+}
 
 const observer = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
@@ -288,6 +337,12 @@ const observer = new MutationObserver(mutations => {
                             hideContentEksiSozluk(keywords);
                         } else if (currentUrl.includes('https://www.google.')) {
                             hideGoogleSearchContent(keywords);
+                        }else if (currentUrl.includes('https://www.amazon.')) {
+                            hideAmazonContent(keywords);
+                        }else if(currentUrl.includes('https://www.trendyol.')){
+                            hideTrendyolContent(keywords);
+                        }else if(currentUrl.includes('https://www.hepsiburada.')){
+                            hideHepsiburadaContent(keywords);
                         } else {
                             hideGeneralContent(keywords); // Apply general content filter for other websites
                         }
@@ -299,4 +354,3 @@ const observer = new MutationObserver(mutations => {
 });
 
 observer.observe(document.body, { childList: true, subtree: true, characterData: false });
-
